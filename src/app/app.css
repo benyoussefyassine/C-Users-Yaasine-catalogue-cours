@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+header {
+  text-align: center;
+  padding: 1rem 0;
+  border-bottom: 2px solid #dd0031;
+  margin-bottom: 1rem;
+}
+
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1rem 0;
+  border-top: 1px solid #ddd;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+app-liste-cours,
+app-detail-cours {
+  display: block;
+}
+.pied-page-placeholder {
+  min-height: 60px;
+  text-align: center;
+  color: #9a9a9e;
+}
