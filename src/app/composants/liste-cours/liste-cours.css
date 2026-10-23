@@ -81,3 +81,15 @@
 .badge--backend  { background-color: #1B1B2F; }
 .badge--langage  { background-color: #0E7C86; }
 .badge--autre    { background-color: #6B6B7B; }
+.carte-cours a {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: #dd0031;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.carte-cours a:hover {
+  text-decoration: underline;
+}
