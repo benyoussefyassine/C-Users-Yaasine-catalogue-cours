@@ -3,6 +3,7 @@ import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/rou
 import { EnTete } from './composants/en-tete/en-tete';
 import { PiedPage } from './composants/pied-page/pied-page';
 import { Session } from './services/session';
+import { Inscriptions } from './services/inscriptions';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { Session } from './services/session';
 })
 export class App {
   session = inject(Session);
+  inscriptions = inject(Inscriptions);
   private router = inject(Router);
 
   deconnecter() {

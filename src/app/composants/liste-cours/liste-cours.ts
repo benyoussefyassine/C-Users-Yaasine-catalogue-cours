@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UpperCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FiltreCoursPipe } from '../../pipes/filtre-cours-pipe';
 import { TriCoursPipe } from '../../pipes/tri-cours-pipe';
 import { PlacesRestantesPipe } from '../../pipes/places-restantes-pipe';
-import { Cours, COURS } from '../../donnees/cours';
+import { Cours } from '../../donnees/cours';
+import { Catalogue } from '../../services/catalogue';
 
 @Component({
   imports: [FormsModule, RouterLink, FiltreCoursPipe, TriCoursPipe, UpperCasePipe, PlacesRestantesPipe],
@@ -14,8 +15,10 @@ import { Cours, COURS } from '../../donnees/cours';
   templateUrl: './liste-cours.html',
 })
 export class ListeCours {
+  private catalogue = inject(Catalogue);
+
   recherche = '';
   tri: 'asc' | 'desc' = 'asc';
 
-  cours: Cours[] = COURS;
+  cours: Cours[] = this.catalogue.lister();
 }

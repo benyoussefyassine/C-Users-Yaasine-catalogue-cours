@@ -1,7 +1,9 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { COURS, Cours } from '../../donnees/cours';
+import { Cours } from '../../donnees/cours';
+import { Catalogue } from '../../services/catalogue';
+import { Inscriptions } from '../../services/inscriptions';
 import { Session } from '../../services/session';
 import { nomComplet } from '../../validators/nom-complet';
 
@@ -13,6 +15,8 @@ import { nomComplet } from '../../validators/nom-complet';
 })
 export class Inscription implements OnInit {
   private session = inject(Session);
+  private catalogue = inject(Catalogue);
+  inscriptions = inject(Inscriptions);
 
   @Input() id = ''; // reçoit le :id de l'URL
   confirmation = '';
@@ -27,7 +31,7 @@ export class Inscription implements OnInit {
   });
 
   get cours(): Cours | undefined {
-    return COURS.find(c => c.id === Number(this.id));
+    return this.catalogue.trouver(Number(this.id));
   }
 
   ngOnInit() {
@@ -43,17 +47,22 @@ export class Inscription implements OnInit {
   get conditions() { return this.form.controls.conditions; }
 
   envoyer() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched(); // fait apparaître toutes les erreurs
+    const cours = this.cours;
+    if (this.form.invalid || !cours) {
+      this.form.markAllAsTouched();
       return;
     }
 
-    const { nom, email } = this.form.value;
-    this.confirmation =
-      `Merci ${nom} ! Votre inscription à « ${this.cours?.titre} » est enregistrée. ` +
-      `Un message de confirmation sera envoyé à ${email}.`;
+    const v = this.form.getRawValue();
+    this.inscriptions.ajouter({
+      coursId: cours.id,
+      nom: v.nom ?? '',
+      email: v.email ?? '',
+      niveau: v.niveau ?? '',
+      date: new Date(),
+    });
 
-    console.log('Inscription :', this.form.value);
+    this.confirmation = `Merci ${v.nom} ! Votre inscription à « ${cours.titre} » est enregistrée.`;
     this.form.reset();
   }
 }
